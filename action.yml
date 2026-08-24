@@ -16,8 +16,10 @@ runs:
       shell: sh
       run: curl --fail --silent --show-error --location --output "${{ runner.workspace }}/helm.tar.gz" "https://get.helm.sh/helm-${{ inputs.version }}-linux-amd64.tar.gz"        
 
-    - run: ls -la
-      shell: bash
+    - shell: bash
+      run: |
+        ls -la
+        pwd -P
 
     - name: 'verify'
       shell: sh
