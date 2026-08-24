@@ -16,6 +16,9 @@ runs:
       shell: sh
       run: curl --fail --silent --show-error --location --output "${{ runner.workspace }}/helm.tar.gz" "https://get.helm.sh/helm-${{ inputs.version }}-linux-amd64.tar.gz"        
 
+    - run: ls -la
+      shell: bash
+
     - name: 'verify'
       shell: sh
       run: echo "$(echo '${{ inputs.checksum }}' | tr '[:upper:]' '[:lower:]')  helm.tar.gz" | sha256sum -c -
