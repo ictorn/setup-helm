@@ -25,4 +25,4 @@ jobs:
           
       - name: 'assert installed version matches requested version'
         shell: bash
-        run: '[ "$(helm version --template "{{ .Version }}")" = "${HELM_VERSION}2" ]'
+        run: '[ "$(helm version --template "{{ .Version }}")" = "${HELM_VERSION}" ]'
