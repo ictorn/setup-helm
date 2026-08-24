@@ -8,13 +8,21 @@ inputs:
   checksum:
     description: 'expected SHA-256 checksum of the Helm archive'
     required: true
+  os:
+    description: 'target OS'
+    required: false
+    default: 'linux'
+  arch:
+    description: 'target architecture'
+    required: false
+    default: 'amd64'
 
 runs:
   using: 'composite'
   steps:
     - name: 'download'
       shell: sh
-      run: curl --fail --silent --show-error --location --output "${{ runner.temp }}/helm.tar.gz" "https://get.helm.sh/helm-${{ inputs.version }}-linux-amd64.tar.gz"        
+      run: curl --fail --silent --show-error --location --output "${{ runner.temp }}/helm.tar.gz" "https://get.helm.sh/helm-${{ inputs.version }}-${{ inputs.os }}-${{ inputs.arch }}.tar.gz"        
 
     - name: 'verify'
       shell: sh
