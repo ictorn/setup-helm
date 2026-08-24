@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+env:
+  HELM_VERSION: 'v4.2.4'
+  HELM_CHECKSUM: 'c306b46f719b0a4da32d0f78ee21bf90ce8d602f15b22ab753f0674d1670a7f3'
+
 jobs:
   asserts:
     runs-on: ubuntu-latest
@@ -12,6 +16,9 @@ jobs:
 
       - name: 'run action'
         uses: ./
+        with:
+          version: ${{ env.HELM_VERSION }}
+          checksum: ${{ env.HELM_CHECKSUM }}
 
       - name: 'assert helm is installed'
         run: helm version
