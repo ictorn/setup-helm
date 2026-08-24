@@ -1,0 +1,26 @@
+name: 'setup-helm'
+description: 'get a specific Helm release'
+
+inputs:
+  version:
+    description: 'Helm version to install'
+    required: true
+  checksum:
+    description: 'expected SHA-256 checksum of the Helm archive'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'download'
+      shell: sh
+      run: curl --fail --silent --show-error --location --output "${{ runner.workspace }}/helm.tar.gz" "https://get.helm.sh/helm-${{ inputs.version }}-linux-amd64.tar.gz"        
+
+    - name: 'verify'
+      shell: sh
+      run: echo "$(echo '${{ inputs.checksum }}' | tr '[:upper:]' '[:lower:]')  helm.tar.gz" | sha256sum -c -
+
+    - name: 'install'
+      id: install
+      shell: bash
+      run: tar -zxf helm.tar.gz -C /usr/local/bin --wildcards --strip-components=1 --mode='+x' '*/helm'

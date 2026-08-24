@@ -1,0 +1,26 @@
+name: 'update major version tag on release'
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+    
+env:
+  RELEASE_TAG: "${{ github.event.release.tag_name }}"
+
+jobs:
+  update-tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ !github.event.release.prerelease }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      
+      - name: 'set major tag'
+        run: echo "value=${RELEASE_TAG%%.*}" >> "$GITHUB_OUTPUT"
+        id: tag
+      - run: git tag -f "${{ steps.tag.outputs.value }}" "${RELEASE_TAG}"
+      - run: git push origin "${{ steps.tag.outputs.value }}" --force
