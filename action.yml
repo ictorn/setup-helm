@@ -21,6 +21,5 @@ runs:
       run: echo "$(echo '${{ inputs.checksum }}' | tr '[:upper:]' '[:lower:]')  ${{ runner.temp }}/helm.tar.gz" | sha256sum -c -
 
     - name: 'install'
-      id: install
       shell: bash
       run: tar -zxf "${{ runner.temp }}/helm.tar.gz" -C /usr/local/bin --wildcards --strip-components=1 --mode='+x' '*/helm'
